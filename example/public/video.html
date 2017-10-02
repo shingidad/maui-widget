@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        body {
+            background: rgba(0, 0, 0, .7);
+        }
+    </style>
+</head>
+
+<body>
+    <script src="maui-widget.js"></script>
+    <script>
+        (function () {
+
+            /**
+             * keyDown Event
+             */
+            $MayUHD.addEventListener("keydown", function (e) {
+            });
+            /**
+             *  keyUp Event
+             */
+            $MayUHD.addEventListener("keyup", function (e) {
+            });
+            /**
+             *  Video Play 
+             */
+            $MayUHD.addEventListener('video.play', function () {
+            });
+            /**
+             *  Video Error
+             */
+            $MayUHD.addEventListener('video.error', function () {
+            });
+            /**
+             *  Video Eended / finish
+             */
+            $MayUHD.addEventListener('video.finish', function () {
+            });
+
+            /**
+             * Video Play
+             * @param {string} url
+             */
+            $MayUHD.videoPlay('http://clips.vorwaerts-gmbh.de/VfE_html5.mp4');
+
+            // setInterval(function () {
+            //     $MayUHD.videoGetCurrentTime(function (time) {
+            //         console.log('video time', time);
+            //     });
+            //     $MayUHD.videoGetDuration(function (duration) {
+            //         console.log('video duration', duration);
+            //     })
+            // }, 1000);
+
+
+        }());
+    </script>
+</body>
+
+</html>

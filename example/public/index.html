@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        body {
+            background: rgba(0, 0, 0, .7);
+        }
+        #box-container {
+            width: 960px;
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            grid-gap: 30px;
+        }
+
+        #box-container>.box {
+            text-align: center;
+            align-items: center;
+            padding: 20px;
+            font-size: 12rem;
+        }
+
+        .box.focus {
+            color: white;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="box-container">
+    </div>
+    <script src="maui-widget.js"></script>
+    <script>
+        (function () {
+            const b = document.getElementById('box-container');
+            const max = 9;
+            var index = 0;
+            for (var i = 0; i < max; i++) {
+                var box = document.createElement('DIV');
+                box.className = 'box';
+                box.innerText = i;
+                box.style = 'background-color:' + ('#' + Math.random().toString(16).substr(-6));
+                b.appendChild(box);
+            }
+            b.childNodes[index + 1].setAttribute('class', 'box focus');
+
+            function moveBoxByIndex(keyCode) {
+                if (keyCode < 37 || keyCode > 40) {
+                    return index;
+                }
+                b.childNodes[index + 1].setAttribute('class', 'box');
+                if (keyCode === 37) {
+                    index -= 1;
+                } else if (keyCode === 38) {
+                    index -= 3;
+                } else if (keyCode === 39) {
+                    index += 1;
+                } else if (keyCode === 40) {
+                    index += 3;
+                }
+                if (index < 0) {
+                    index = 0;
+                } else if (index >= max) {
+                    index = max - 1;
+                }
+                b.childNodes[index + 1].setAttribute('class', 'box focus');
+                return index;
+            }
+
+            $MayUHD.addEventListener("keydown", function (e) {
+                const keyCode = e.keyCode;
+                moveBoxByIndex(keyCode);
+            });
+
+            $MayUHD.addEventListener("keyup", function (e) {
+                const keyCode = e.keyCode;
+                if (keyCode === 13) {
+                    $MayUHD.videoPlay('http://clips.vorwaerts-gmbh.de/VfE_html5.mp4');
+                } else if (keyCode === 27) {
+                    $MayUHD.videoStop();
+                }
+            });
+        }());
+    </script>
+</body>
+</html>
