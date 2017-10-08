@@ -5,7 +5,7 @@
     "main": "maui-widget.js",
     "scripts": {
         "example": "NODE_ENV=development PORT=4000 nodemon --exec babel-node example/server.js",
-        "build" : "babel src/maui-widget-es6.js --out-file maui-widget.js && minify --output maui-widget.min.js maui-widget.js && cp ./maui-widget.min.js example/public/maui-widget.min.js && cp ./maui-widget.js example/public/maui-widget.js"
+        "build": "babel src/maui-widget-es6.js --out-file maui-widget.js && minify --output maui-widget.min.js maui-widget.js && cp ./maui-widget.min.js example/public/maui-widget.min.js && cp ./maui-widget.js example/public/maui-widget.js"
     },
     "author": "donghyun, kim (Redlab)",
     "license": "ISC",
