@@ -1,7 +1,7 @@
 /*
 ./node_modules/.bin/babel src/maui-widget-es6.js --out-file example/public/maui-widget.js
  */
-class $MayUHD {
+class $maui {
     /**
      * 생성
      * @param {*} w
@@ -20,7 +20,15 @@ class $MayUHD {
                         this._cbVideoCurrentTime();
                         this._cbVideoCurrentTime = null;
                     }
-                } else if (type === 'video.duration') {} else {
+                } else if (type === 'video.duration') {
+                    // video duration
+                    
+                } else if (type === 'device.info') {
+                    //
+                    if (this.__callBackGetDeviceInfo) {
+                        this.__callBackGetDeviceInfo({sn: e.data.sn, mac: e.data.mac});
+                    }
+                } else {
                     this.trigger(type, e.data);
                 }
             }
@@ -83,6 +91,7 @@ class $MayUHD {
      * @param {*} event
      */
     trigger(type, event = {}) {
+        console.log(type, event);
         if (this.listenrs[type] !== undefined) {
             const list = this.listenrs[type];
             if (list !== undefined && Array.isArray(list)) {
@@ -104,6 +113,12 @@ class $MayUHD {
                     data: data
                 }, '*');
         }
+        return this;
+    }
+
+    getDeviceInfo(callback) {
+        this.parentTrigger('device.info')
+        this.__callBackGetDeviceInfo = callback;
         return this;
     }
 
@@ -160,8 +175,8 @@ class $MayUHD {
     }
 }(function (global) {
     if (typeof exports === 'object' && typeof module !== 'undefined') {
-        module.exports = $MayUHD
+        module.exports = $maui;
     } else {
-        window.$MayUHD = new $MayUHD(window);
+        window.$maui = new $maui(window);
     }
 }(this));

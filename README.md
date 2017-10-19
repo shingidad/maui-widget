@@ -366,7 +366,8 @@ document, window에 직접 Event Listener 를 추가하는 것은 Error 가 인�
 - [x] widget 에서 keyboard, video control
 
 
-- [ ] device info 가져오기
-- [ ] $MayUHD -> $mayui 로 변경
-- [ ] 8VSB, QAM 관리
+- [x] device info 가져오기
+- [x] $MayUHD -> $maui 로 변경
+- [ ] video duration 가져오기 및 비디오 에 미흡한 기능 추가
+- [ ] 8VSB, QAM 재생
 - [ ] package.json 추가 기능 정리
