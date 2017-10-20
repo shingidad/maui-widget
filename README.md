@@ -11,7 +11,7 @@ Maui-widget는 기존에 MayUHD-widget 이 **고도화된** Widget Library 이�
   - html import
 
     ```html
-    <script src="https://cdn.jsdelivr.net/npm/may-widget/maui-widget.min.js" type="text/javascript"></script>
+    <script src="https://cdn.jsdelivr.net/npm/may-widget" type="text/javascript"></script>
     <!-- OR -->
     <script src="maui-widget.js"></script>
     ```
