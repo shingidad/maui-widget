@@ -1,53 +1,53 @@
 'use strict';
 
-var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
-
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-/*
-./node_modules/.bin/babel src/maui-widget-es6.js --out-file example/public/maui-widget.js
- */
-var $MayUHD = function () {
+var _mauiWidget = function () {
     /**
      * 생성
-     * @param {*} w
      */
-    function $MayUHD() {
-        var w = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : window;
+    function _mauiWidget() {
+        _classCallCheck(this, _mauiWidget);
 
-        _classCallCheck(this, $MayUHD);
-
-        this.mWindow = w;
-        this.initEvents(w);
+        this.initEvents();
     }
 
-    _createClass($MayUHD, [{
+    _createClass(_mauiWidget, [{
+        key: 'isNull',
+        value: function isNull(v) {
+            return v === undefined || v === null;
+        }
+    }, {
         key: 'initEvents',
-        value: function initEvents(window) {
+        value: function initEvents() {
             var _this = this;
 
-            window.addEventListener('message', function (e) {
-                var type = e.data.type;
+            if (!this.isNull(window)) {
+                window.addEventListener('message', function (e) {
+                    var type = e.data.type;
 
-                if (typeof type === 'string') {
-                    if (type === 'video.currentTime') {
-                        if (_this._cbVideoCurrentTime !== undefined && _this._cbVideoCurrentTime !== null) {
-                            _this._cbVideoCurrentTime();
-                            _this._cbVideoCurrentTime = null;
+                    if (typeof type === 'string') {
+                        if (type === 'video.currentTime') {
+                            if (_this._cbVideoCurrentTime !== undefined && _this._cbVideoCurrentTime !== null) {
+                                _this._cbVideoCurrentTime();
+                                _this._cbVideoCurrentTime = null;
+                            }
+                        } else if (type === 'video.duration') {
+                            // video duration
+
+                        } else if (type === 'device.info') {
+                            //
+                            if (_this.__callBackGetDeviceInfo) {
+                                _this.__callBackGetDeviceInfo({ sn: e.data.sn, mac: e.data.mac });
+                            }
+                        } else {
+                            _this.trigger(type, e.data);
                         }
-                    } else if (type === 'video.duration') {} else {
-                        _this.trigger(type, e.data);
                     }
-                }
-            }, false);
-            document.addEventListener('keydown', function (e) {
-                return _this.trigger(e.type, e);
-            });
-            document.addEventListener('keyup', function (e) {
-                return _this.trigger(e.type, e);
-            });
+                }, false);
+            }
         }
     }, {
         key: 'addEventListener',
@@ -67,12 +67,12 @@ var $MayUHD = function () {
             if (typeof type !== 'string') {
                 throw 'parma1 type only "string"';
             }
-            if (this.listenrs[type] === undefined) {
-                this.listenrs[type] = [];
+            if (this.listeners[type] === undefined) {
+                this.listeners[type] = [];
             }
-            var index = this.listenrs[type].indexOf(func);
+            var index = this.listeners[type].indexOf(func);
             if (index <= -1) {
-                this.listenrs[type].push(func);
+                this.listeners[type].push(func);
             }
             return this;
         }
@@ -92,7 +92,7 @@ var $MayUHD = function () {
             if (type !== null) {
                 var index = this.listenrs[type].indexOf(func);
                 if (index >= 0) {
-                    this.listenrs[type].slic;
+                    this.listeners[type].slic;
                 }
             }
             return this;
@@ -109,8 +109,8 @@ var $MayUHD = function () {
         value: function trigger(type) {
             var event = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
 
-            if (this.listenrs[type] !== undefined) {
-                var list = this.listenrs[type];
+            if (this.listeners[type] !== undefined) {
+                var list = this.listeners[type];
                 if (list !== undefined && Array.isArray(list)) {
                     var _iteratorNormalCompletion = true;
                     var _didIteratorError = false;
@@ -143,12 +143,22 @@ var $MayUHD = function () {
     }, {
         key: 'parentTrigger',
         value: function parentTrigger(type, data) {
-            if (this.mWindow !== undefined && this.mWindow.parent !== undefined && this.mWindow.parent.postMessage !== undefined) {
-                this.mWindow.parent.postMessage({
+            if (this.isNull(window)) {
+                return this;
+            }
+            if (window !== undefined && window.parent !== undefined && window.parent.postMessage !== undefined) {
+                window.parent.postMessage({
                     type: type,
                     data: data
                 }, '*');
             }
+            return this;
+        }
+    }, {
+        key: 'getDeviceInfo',
+        value: function getDeviceInfo(callback) {
+            this.parentTrigger('device.info');
+            this.__callBackGetDeviceInfo = callback;
             return this;
         }
 
@@ -227,7 +237,7 @@ var $MayUHD = function () {
             this.parentTrigger('video.duration');
         }
     }, {
-        key: 'listenrs',
+        key: 'listeners',
         get: function get() {
             if (this.mEventListenerList === undefined || this.mEventListenerList === null) {
                 this.mEventListenerList = {};
@@ -236,13 +246,18 @@ var $MayUHD = function () {
         }
     }]);
 
-    return $MayUHD;
+    return _mauiWidget;
 }();
 
-(function (global) {
-    if ((typeof exports === 'undefined' ? 'undefined' : _typeof(exports)) === 'object' && typeof module !== 'undefined') {
-        module.exports = $MayUHD;
+var $mw = new _mauiWidget();
+if (typeof module !== 'undefined' && typeof module.exports !== 'undefined') {
+    module.exports = $mw;
+} else {
+    if (typeof define === 'function' && define.amd) {
+        define([], function () {
+            return $mw;
+        });
     } else {
-        window.$MayUHD = new $MayUHD(window);
+        window.$mw = $mw;
     }
-})(undefined);
+}

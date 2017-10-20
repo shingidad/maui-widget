@@ -1,37 +1,32 @@
 {
     "name": "may-widget",
-    "version": "0.0.1",
-    "description": "샘플 widget project",
-    "main": "maui-widget.js",
+    "version": "0.0.4",
+    "description": "maui(may ui) 에서 widget 기능을 만들기 위한 client library",
+    "main": "maui-widget.min.js",
     "scripts": {
         "example": "NODE_ENV=development PORT=4000 nodemon --exec babel-node example/server.js",
-        "build": "babel src/maui-widget-es6.js --out-file maui-widget.js && minify --output maui-widget.min.js maui-widget.js && cp ./maui-widget.min.js example/public/maui-widget.min.js && cp ./maui-widget.js example/public/maui-widget.js"
+        "build": "babel src/maui-widget-es6.js --out-file maui-widget.js && minify --output maui-widget.min.js maui-widget.js"
     },
     "author": "donghyun, kim (Redlab)",
     "license": "ISC",
+    "homepage": "https://github.com/shingidad/maui-widget",
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/shingidad/maui-widget.git"
+    },
     "dependencies": {
         "babel-cli": "^6.26.0",
         "babel-preset-env": "^1.6.0",
         "body-parser": "^1.18.2",
-        "express": "^4.15.5"
+        "express": "^4.15.5",
+        "minify": "^3.0.2"
     },
     "devDependencies": {
         "babel-polyfill": "^6.26.0",
         "minifier": "^0.8.1",
         "nodemon": "^1.12.1"
     },
-    "homepage": "http://127.0.0.1:4000",
-    "widgetType": "fullPage",
-    "usePermission": [
-        "video",
-        "deviceInfo"
-    ],
-    "keyevents": [
-        37,
-        38,
-        39,
-        40,
-        13,
-        27
-    ]
+    "bugs": {
+        "url": "https://github.com/shingidad/maui-widget/issues"
+    }
 }

@@ -1,42 +1,41 @@
-/*
-./node_modules/.bin/babel src/maui-widget-es6.js --out-file example/public/maui-widget.js
- */
-class $maui {
+class _mauiWidget {
     /**
      * 생성
-     * @param {*} w
      */
-    constructor(w = window) {
-        this.mWindow = w;
-        this.initEvents(w);
+    constructor() {
+        this.initEvents();
     }
 
-    initEvents(window) {
-        window.addEventListener('message', (e) => {
-            const {type} = e.data;
-            if (typeof type === 'string') {
-                if (type === 'video.currentTime') {
-                    if (this._cbVideoCurrentTime !== undefined && this._cbVideoCurrentTime !== null) {
-                        this._cbVideoCurrentTime();
-                        this._cbVideoCurrentTime = null;
-                    }
-                } else if (type === 'video.duration') {
-                    // video duration
-                    
-                } else if (type === 'device.info') {
-                    //
-                    if (this.__callBackGetDeviceInfo) {
-                        this.__callBackGetDeviceInfo({sn: e.data.sn, mac: e.data.mac});
-                    }
-                } else {
-                    this.trigger(type, e.data);
-                }
-            }
-        }, false);
-        document.addEventListener('keydown', (e) => this.trigger(e.type, e));
-        document.addEventListener('keyup', (e) => this.trigger(e.type, e));
+    isNull(v) {
+        return v === undefined || v === null;
     }
-    get listenrs() {
+
+    initEvents() {
+        if (!this.isNull(window)) {
+            window.addEventListener('message', (e) => {
+                const {type} = e.data;
+                if (typeof type === 'string') {
+                    if (type === 'video.currentTime') {
+                        if (this._cbVideoCurrentTime !== undefined && this._cbVideoCurrentTime !== null) {
+                            this._cbVideoCurrentTime();
+                            this._cbVideoCurrentTime = null;
+                        }
+                    } else if (type === 'video.duration') {
+                        // video duration
+
+                    } else if (type === 'device.info') {
+                        //
+                        if (this.__callBackGetDeviceInfo) {
+                            this.__callBackGetDeviceInfo({sn: e.data.sn, mac: e.data.mac});
+                        }
+                    } else {
+                        this.trigger(type, e.data);
+                    }
+                }
+            }, false);
+        }
+    }
+    get listeners() {
         if (this.mEventListenerList === undefined || this.mEventListenerList === null) {
             this.mEventListenerList = {};
         }
@@ -54,15 +53,15 @@ class $maui {
         if (typeof type !== 'string') {
             throw('parma1 type only "string"');
         }
-        if (this.listenrs[type] === undefined) {
-            this.listenrs[type] = [];
+        if (this.listeners[type] === undefined) {
+            this.listeners[type] = [];
         }
         const index = this
-            .listenrs[type]
+            .listeners[type]
             .indexOf(func);
         if (index <= -1) {
             this
-                .listenrs[type]
+                .listeners[type]
                 .push(func);
         }
         return this;
@@ -79,7 +78,7 @@ class $maui {
                 .listenrs[type]
                 .indexOf(func);
             if (index >= 0) {
-                this.listenrs[type].slic
+                this.listeners[type].slic
             }
         }
         return this;
@@ -91,9 +90,8 @@ class $maui {
      * @param {*} event
      */
     trigger(type, event = {}) {
-        console.log(type, event);
-        if (this.listenrs[type] !== undefined) {
-            const list = this.listenrs[type];
+        if (this.listeners[type] !== undefined) {
+            const list = this.listeners[type];
             if (list !== undefined && Array.isArray(list)) {
                 for (let e of list) {
                     e(Object.assign({}, event, {type: type}));
@@ -104,9 +102,11 @@ class $maui {
     }
 
     parentTrigger(type, data) {
-        if (this.mWindow !== undefined && this.mWindow.parent !== undefined && this.mWindow.parent.postMessage !== undefined) {
-            this
-                .mWindow
+        if (this.isNull(window)) {
+            return this;
+        }
+        if (window !== undefined && window.parent !== undefined && window.parent.postMessage !== undefined) {
+            window
                 .parent
                 .postMessage({
                     type,
@@ -173,10 +173,16 @@ class $maui {
     videoGetDuration(callback) {
         this.parentTrigger('video.duration');
     }
-}(function (global) {
-    if (typeof exports === 'object' && typeof module !== 'undefined') {
-        module.exports = $maui;
+}
+const $mw = new _mauiWidget();
+if (typeof module !== 'undefined' && typeof module.exports !== 'undefined') {
+    module.exports = $mw;
+} else {
+    if (typeof define === 'function' && define.amd) {
+        define([], function () {
+            return $mw;
+        });
     } else {
-        window.$maui = new $maui(window);
+        window.$mw = $mw;
     }
-}(this));
+}

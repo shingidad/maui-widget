@@ -3,25 +3,32 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Document</title>
     <style>
         body {
             background: rgba(0, 0, 0, .7);
+            padding: 0;
+            margin: 0;
         }
+
         #box-container {
-            width: 960px;
-            display: grid;
-            grid-template-columns: 1fr 1fr 1fr;
-            grid-gap: 30px;
+            display: block;
+            padding: 0;
+            margin: 0;
         }
 
         #box-container>.box {
             text-align: center;
             align-items: center;
+            float: left;
+            height: 300px;
+            width: 33%;
             padding: 20px;
             font-size: 12rem;
+            padding: 0;
+            margin: 0;
         }
 
         .box.focus {
@@ -33,7 +40,7 @@
 <body>
     <div id="box-container">
     </div>
-    <script src="maui-widget.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/may-widget/maui-widget.min.js" type="text/javascript"></script>
     <script>
         (function () {
             const b = document.getElementById('box-container');
@@ -71,20 +78,16 @@
                 return index;
             }
 
-            $MayUHD.addEventListener("keydown", function (e) {
+            $mw.addEventListener("keydown", function (e) {
                 const keyCode = e.keyCode;
                 moveBoxByIndex(keyCode);
             });
 
-            $MayUHD.addEventListener("keyup", function (e) {
+            $mw.addEventListener("keyup", function (e) {
                 const keyCode = e.keyCode;
-                if (keyCode === 13) {
-                    $MayUHD.videoPlay('http://clips.vorwaerts-gmbh.de/VfE_html5.mp4');
-                } else if (keyCode === 27) {
-                    $MayUHD.videoStop();
-                }
             });
         }());
     </script>
 </body>
+
 </html>
