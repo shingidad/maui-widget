@@ -1,6 +1,6 @@
-import express from 'express';
-import bodyParser from 'body-parser';
-import path from 'path';
+const express = require('express'),
+    bodyParser = require('body-parser'),
+    path = require('path')
 const PROT = process.env.PORT || 3000;
 const app = express();
 app.use(bodyParser.json());
