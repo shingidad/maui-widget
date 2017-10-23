@@ -50,7 +50,7 @@
                 var box = document.createElement('DIV');
                 box.className = 'box';
                 box.innerText = i;
-                box.style = 'background-color:' + ('#' + Math.random().toString(16).substr(-6));
+                box.setAttribute('style', 'background-color:' + ('#' + Math.random().toString(16).substr(-6)));
                 b.appendChild(box);
             }
             b.childNodes[index + 1].setAttribute('class', 'box focus');

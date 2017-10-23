@@ -1,3 +1,4 @@
+import corejs from 'core-js';
 class _mauiWidget {
     /**
      * 생성
@@ -16,17 +17,19 @@ class _mauiWidget {
                 const {type} = e.data;
                 if (typeof type === 'string') {
                     if (type === 'video.currentTime') {
-                        if (this._cbVideoCurrentTime !== undefined && this._cbVideoCurrentTime !== null) {
-                            this._cbVideoCurrentTime();
+                        if (!isNull(this._cbVideoCurrentTime)) {
+                            this._cbVideoCurrentTime(e.data.currentTime);
                             this._cbVideoCurrentTime = null;
                         }
                     } else if (type === 'video.duration') {
                         // video duration
-
+                        if (!isNull(this._cbVideoDuration)) {
+                            this._cbVideoDuration(e.data.duration);
+                        }
                     } else if (type === 'device.info') {
                         //
                         if (this.__callBackGetDeviceInfo) {
-                            this.__callBackGetDeviceInfo({sn: e.data.sn, mac: e.data.mac});
+                            this.__callBackGetDeviceInfo();
                         }
                     } else {
                         this.trigger(type, e.data);
@@ -171,18 +174,12 @@ class _mauiWidget {
      * @param {function} callback
      */
     videoGetDuration(callback) {
+        this._cbVideoDuration = callback;
         this.parentTrigger('video.duration');
     }
 }
 const $mw = new _mauiWidget();
 if (typeof module !== 'undefined' && typeof module.exports !== 'undefined') {
+    window.$mw = $mw;
     module.exports = $mw;
-} else {
-    if (typeof define === 'function' && define.amd) {
-        define([], function () {
-            return $mw;
-        });
-    } else {
-        window.$mw = $mw;
-    }
 }
