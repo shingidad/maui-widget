@@ -14,22 +14,22 @@ class _mauiWidget {
     initEvents() {
         if (!this.isNull(window)) {
             window.addEventListener('message', (e) => {
+                // console.log(e);
                 const {type} = e.data;
                 if (typeof type === 'string') {
-                    if (type === 'video.currentTime') {
-                        if (!isNull(this._cbVideoCurrentTime)) {
+                    if (type === 'video.currentTime.get') {
+                        if (!this.isNull(this._cbVideoCurrentTime)) {
                             this._cbVideoCurrentTime(e.data.currentTime);
                             this._cbVideoCurrentTime = null;
                         }
                     } else if (type === 'video.duration') {
                         // video duration
-                        if (!isNull(this._cbVideoDuration)) {
+                        if (!this.isNull(this._cbVideoDuration)) {
                             this._cbVideoDuration(e.data.duration);
                         }
                     } else if (type === 'device.info') {
-                        //
                         if (this.__callBackGetDeviceInfo) {
-                            this.__callBackGetDeviceInfo();
+                            this.__callBackGetDeviceInfo(e.data);
                         }
                     } else {
                         this.trigger(type, e.data);

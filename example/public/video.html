@@ -5,58 +5,172 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
+    <title>Video</title>
     <style>
+        html,
         body {
+            padding: 0;
+            margin: 0;
+        }
+
+        #control {
+            width: 100%;
+            height: 200px;
+            position: absolute;
+            bottom: 0;
             background: rgba(0, 0, 0, .7);
+            padding: 20px;
+        }
+
+        #control * {
+            color: #e9e9e9;
+        }
+
+        #progress-container {
+            width: 100%;
+            height: 10px;
+            background: gray;
+            display: block;
+        }
+
+        #progress {
+            width: 0%;
+            height: 10px;
+            background: yellow;
+            display: block;
         }
     </style>
 </head>
 
 <body>
+    <div id="control">
+        <h1>Video Example!</h1>
+        <p>sn :
+            <span id="sn"></span> / mac:
+            <span id="mac"></span>
+        </p>
+        <h5 id="state"></h5>
+        <p>
+            현재시간 :
+            <span id="current-time"></span>/ 재생길이 :
+            <span id="duration"></span>
+        </p>
+
+        <div id="progress-container">
+            <div id="progress"></div>
+        </div>
+    </div>
+
+
+
+
     <script src="maui-widget.min.js"></script>
     <script>
         (function () {
+            var intervalCurrentTime;
+            var isPlay = false;
+            var duration;
 
-            /**
-             * keyDown Event
-             */
-            $mw.addEventListener("keydown", function (e) {
+            // get device info
+            $mw.getDeviceInfo(function (data) {
+                document.getElementById('sn').innerText = data.sn;
+                document.getElementById('mac').innerText = data.network.mac;
             });
+
+            function initInterval() {
+                stopInterval();
+                intervalCurrentTime = setInterval(function () {
+                    $mw.videoGetCurrentTime(function (time) {
+                        document.getElementById('current-time').innerText = time;
+                        document.getElementById('progress').setAttribute(
+                            'style', ('width:' + ((time / duration) * 100) + '%')
+                        );
+                    });
+                }, 500);
+            }
+
+            function stopInterval() {
+                if (intervalCurrentTime) {
+                    clearInterval(intervalCurrentTime);
+                }
+            }
             /**
              *  keyUp Event
              */
             $mw.addEventListener("keyup", function (e) {
+                var keyCode = e.keyCode;
+                if (keyCode === 13) {
+                    if (isPlay) {
+                        document.getElementById('state').innerText = '일시정지';
+                        isPlay = false;
+                        stopInterval();
+                        $mw.videoPause();
+                    } else {
+                        document.getElementById('state').innerText = '재생';
+                        isPlay = true;
+                        initInterval();
+                        $mw.videoResume();
+                    }
+                } else if (keyCode === 37) {
+                    $mw.videoGetCurrentTime(function (time) {
+                        $mw.videoSetCurrentTime(time - (1000 * 10));
+                    });
+                } else if (keyCode === 39) {
+                    $mw.videoGetCurrentTime(function (time) {
+                        $mw.videoSetCurrentTime(time + (1000 * 10));
+                    });
+                } else if (keyCode === 27) {
+                    if (isPlay) {
+                        document.getElementById('state').innerText = '정지';
+                        isPlay = false;
+                        $mw.videoStop();
+                        stopInterval();
+                        document.getElementById('progress').setAttribute('style', 'width:0%');
+                    } else {
+                        $mw.videoPlay('http://www.html5videoplayer.net/videos/toystory.mp4');
+                    }
+                }
             });
+
             /**
              *  Video Play 
              */
             $mw.addEventListener('video.play', function () {
+                isPlay = true;
+                $mw.videoGetDuration(function (d) {
+                    document.getElementById('duration').innerText = d;
+                    document.getElementById('state').innerText = '재생';
+                    duration = d;
+                });
+                initInterval();
             });
+
             /**
              *  Video Error
              */
             $mw.addEventListener('video.error', function () {
+                document.getElementById('state').innerText = '재생에러';
+                isPlay = false;
+                $mw.videoStop();
+                stopInterval();
+                document.getElementById('progress').setAttribute('style', 'width:0%');
             });
             /**
              *  Video Eended / finish
              */
             $mw.addEventListener('video.finish', function () {
+                document.getElementById('state').innerText = '재생완료';
+                isPlay = false;
+                $mw.videoStop();
+                stopInterval();
+                document.getElementById('progress').setAttribute('style', 'width:0%');
             });
 
             /**
              * Video Play
              * @param {string} url
              */
-            $mw.videoPlay('http://clips.vorwaerts-gmbh.de/VfE_html5.mp4');
-            // setInterval(function () {
-            //     $mw.videoGetCurrentTime(function (time) {
-            //         console.log('video time', time);
-            //     });
-            //     $mw.videoGetDuration(function (duration) {
-            //         console.log('video duration', duration);
-            //     })
-            // }, 1000);
+            $mw.videoPlay('http://www.html5videoplayer.net/videos/toystory.mp4');
         }());
     </script>
 </body>

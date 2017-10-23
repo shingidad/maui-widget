@@ -109,6 +109,32 @@ Maui-widget는 기존에 MayUHD-widget 이 **고도화된** Widget Library 이�
 
     ​
 
+  - Device 
+
+    - getDeviceInfo
+
+      ```javascript
+      $mw.getDeviceInfo(function (data) {
+      	console.log(data)
+      });
+      ```
+
+      ```json
+      //result 
+      {
+          "sn" : "",
+        	"network" : {
+          	"mac" : "",
+          	"mac_wifi" : "",
+          	"gatway" : "",
+          	"dns" : "",
+          	"ip_lan" : ""
+      	}
+      }
+      ```
+
+      ​
+
 
 
 #### Remote Control Key
@@ -139,29 +165,29 @@ document, window에 직접 Event Listener 를 추가하는 것은 Error 가 인�
 
   - HiTV
 
-    | Key         | 기능               | key code |
-    | ----------- | ---------------- | -------- |
-    | MEDIA_RED   | 확장 기능을 사용할 경우 사용 | 183      |
-    | MEDIA_GREEN | 확장 기능을 사용할 경우 사용 | 184      |
-    | MEDIA_YELLO | 확장 기능을 사용할 경우 사용 | 185      |
-    | MEDIA_BLUE  | 확장 기능을 사용할 경우 사용 | 186      |
-    | BACK        | 뒤로가기             | 27       |
-    | DPAD_UP     | 위                | 38       |
-    | DPAD_LEFT   | 왼쪽               | 37       |
-    | OK          | 확인(Enter)        | 13       |
-    | DPAD_RIGHT  | 오른쪽              | 39       |
-    | DPAD_DOWN   | 아래               | 40       |
-    | NUMBER_1    | 숫자 1             | 49       |
-    | NUMBER_2    | 숫자 2             | 50       |
-    | NUMBER_3    | 숫자 3             | 51       |
-    | NUMBER_4    | 숫자 4             | 52       |
-    | NUMBER_5    | 숫자 5             | 53       |
-    | NUMBER_6    | 숫자 6             | 54       |
-    | NUMBER_7    | 숫자 7             | 55       |
-    | NUMBER_8    | 숫자 8             | 56       |
-    | NUMBER_9    | 숫자 9             | 57       |
-    | NUMBER_0    | 숫자 0             | 48       |
-    | BACKSPACE   | backspace        | 27       |
+    | Key             | 기능                   | key code |
+    | --------------- | -------------------- | -------- |
+    | ~~MEDIA_RED~~   | ~~확장 기능을 사용할 경우 사용~~ | ~~183~~  |
+    | ~~MEDIA_GREEN~~ | ~~확장 기능을 사용할 경우 사용~~ | ~~184~~  |
+    | ~~MEDIA_YELLO~~ | ~~확장 기능을 사용할 경우 사용~~ | ~~185~~  |
+    | ~~MEDIA_BLUE~~  | ~~확장 기능을 사용할 경우 사용~~ | ~~186~~  |
+    | BACK            | 뒤로가기                 | 27       |
+    | DPAD_UP         | 위                    | 38       |
+    | DPAD_LEFT       | 왼쪽                   | 37       |
+    | OK              | 확인(Enter)            | 13       |
+    | DPAD_RIGHT      | 오른쪽                  | 39       |
+    | DPAD_DOWN       | 아래                   | 40       |
+    | NUMBER_1        | 숫자 1                 | 49       |
+    | NUMBER_2        | 숫자 2                 | 50       |
+    | NUMBER_3        | 숫자 3                 | 51       |
+    | NUMBER_4        | 숫자 4                 | 52       |
+    | NUMBER_5        | 숫자 5                 | 53       |
+    | NUMBER_6        | 숫자 6                 | 54       |
+    | NUMBER_7        | 숫자 7                 | 55       |
+    | NUMBER_8        | 숫자 8                 | 56       |
+    | NUMBER_9        | 숫자 9                 | 57       |
+    | NUMBER_0        | 숫자 0                 | 48       |
+    | BACKSPACE       | backspace            | 27       |
 
     ​
 
@@ -281,7 +307,7 @@ document, window에 직접 Event Listener 를 추가하는 것은 Error 가 인�
 
 - [x] device info 가져오기
 - [x] $MayUHD -> $maui 로 변경
-- [ ] video duration 가져오기 및 비디오 에 미흡한 기능 추가
+- [x] video duration 가져오기 및 비디오 에 미흡한 기능 추가
 - [ ] 8VSB, QAM 재생
 - [ ] package.json 추가 기능 정리
 

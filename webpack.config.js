@@ -8,7 +8,7 @@ module.exports = {
         'maui-widget.min': './src/maui-widget-es6.js'
     },
     output: {
-        path: __dirname,
+        path: path.join(__dirname),
         filename: "[name].js"
     },
     module: {
