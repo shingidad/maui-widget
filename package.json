@@ -1,6 +1,6 @@
 {
     "name": "may-widget",
-    "version": "0.0.4",
+    "version": "0.0.5",
     "description": "maui(may ui) 에서 widget 기능을 만들기 위한 client library",
     "main": "maui-widget.min.js",
     "scripts": {
