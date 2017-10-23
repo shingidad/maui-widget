@@ -11,7 +11,7 @@ Maui-widget는 기존에 MayUHD-widget 이 **고도화된** Widget Library 이�
   - html import
 
     ```html
-    <script src="https://cdn.jsdelivr.net/npm/may-widget@0.0.5/maui-widget.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/may-widget@0.0.7/maui-widget.min.js"></script>
     <!-- OR -->
     <script src="https://cdn.jsdelivr.net/npm/may-widget" type="text/javascript"></script>
     <!-- OR -->
@@ -131,6 +131,19 @@ Maui-widget는 기존에 MayUHD-widget 이 **고도화된** Widget Library 이�
           	"ip_lan" : ""
       	}
       }
+      ```
+
+      ​
+
+  - User Certification(사용자 인증)
+
+    - userCertification
+
+      ```javascript
+      // mac, callback
+      $mw.userCertification(user.network.mac, function (data) {
+        console.log(data.login)
+      })
       ```
 
       ​

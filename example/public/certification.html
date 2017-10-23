@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        body {
+            background: rgba(0, 0, 0, .7);
+            padding: 0;
+            margin: 0;
+        }
+
+        * {
+            color: white;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>serial :
+        <span id="serial"></span>
+    </h1>
+    <h1>mac :
+        <span id="mac"></span>
+    </h1>
+    <h1>isLogin :
+        <span id="login">0</span>
+    </h1>
+    <!-- current version 0.0.5 -->
+    <script src="maui-widget.min.js" type="text/javascript"></script>
+
+    <script>
+        (function () {
+            $mw.getDeviceInfo(function (user) {
+                document.getElementById('serial').innerText = user.sn;
+                document.getElementById('mac').innerText = user.network.mac;
+                $mw.userCertification(user.network.mac, function (data) {
+                    document.getElementById('login').innerText = data.login;
+                })
+            });
+        }());
+    </script>
+</body>
+
+</html>

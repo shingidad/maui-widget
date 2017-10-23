@@ -14,7 +14,6 @@ class _mauiWidget {
     initEvents() {
         if (!this.isNull(window)) {
             window.addEventListener('message', (e) => {
-                // console.log(e);
                 const {type} = e.data;
                 if (typeof type === 'string') {
                     if (type === 'video.currentTime.get') {
@@ -31,6 +30,10 @@ class _mauiWidget {
                         if (this.__callBackGetDeviceInfo) {
                             this.__callBackGetDeviceInfo(e.data);
                         }
+                    } else if (type === 'user.certification') {
+                        if (this._cbUserCertification) {
+                            this._cbUserCertification(e.data);
+                        }
                     } else {
                         this.trigger(type, e.data);
                     }
@@ -43,6 +46,15 @@ class _mauiWidget {
             this.mEventListenerList = {};
         }
         return this.mEventListenerList;
+    }
+
+    /**
+     * 인증
+     * @param {mac} mac
+     */
+    userCertification(mac = null, callback) {
+        this._cbUserCertification = callback;
+        this.parentTrigger('user.certification', {mac});
     }
 
     /**

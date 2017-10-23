@@ -3796,7 +3796,6 @@ var _mauiWidget = function () {
 
             if (!this.isNull(window)) {
                 window.addEventListener('message', function (e) {
-                    // console.log(e);
                     var type = e.data.type;
 
                     if (typeof type === 'string') {
@@ -3814,6 +3813,10 @@ var _mauiWidget = function () {
                             if (_this.__callBackGetDeviceInfo) {
                                 _this.__callBackGetDeviceInfo(e.data);
                             }
+                        } else if (type === 'user.certification') {
+                            if (_this._cbUserCertification) {
+                                _this._cbUserCertification(e.data);
+                            }
                         } else {
                             _this.trigger(type, e.data);
                         }
@@ -3822,14 +3825,29 @@ var _mauiWidget = function () {
             }
         }
     }, {
-        key: 'addEventListener',
+        key: 'userCertification',
 
+
+        /**
+         * 인증
+         * @param {mac} mac
+         */
+        value: function userCertification() {
+            var mac = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
+            var callback = arguments[1];
+
+            this._cbUserCertification = callback;
+            this.parentTrigger('user.certification', { mac: mac });
+        }
 
         /**
          * Add Event Listener
          * @param {*} type
          * @param {*} func
          */
+
+    }, {
+        key: 'addEventListener',
         value: function addEventListener() {
             var type = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
             var func = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : function (e) {
